@@ -2,10 +2,29 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./db");
 
-const app = express(); // 🔴 هذا كان ناقص
+const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
+
+// ========================
+// Test route
+// ========================
+app.get("/", (req, res) => {
+  res.send("OK");
+});
+
+// ========================
+// API message
+// ========================
+app.get("/api/message", (req, res) => {
+  res.json({ message: "Backend يعمل بشكل صحيح" });
+});
+
+// ========================
+// Save application (MySQL)
+// ========================
 app.post("/api/application", (req, res) => {
   const {
     gender,
@@ -26,22 +45,36 @@ app.post("/api/application", (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  db.query(sql, [
-    gender,
-    name,
-    country,
-    phone,
-    goal,
-    interest,
-    ageFrom,
-    ageTo,
-    description,
-    partnerSpecs
-  ], (err) => {
-    if (err) {
-      return res.status(500).json({ message: err.message });
-    }
+  db.query(
+    sql,
+    [
+      gender,
+      name,
+      country,
+      phone,
+      goal,
+      interest,
+      ageFrom,
+      ageTo,
+      description,
+      partnerSpecs
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: err.message });
+      }
 
-    res.json({ message: "تم حفظ الطلب بنجاح" });
-  });
+      res.json({ message: "تم حفظ الطلب بنجاح" });
+    }
+  );
+});
+
+// ========================
+// Start server
+// ========================
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("Server running on port", PORT);
 });
