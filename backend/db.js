@@ -1,10 +1,10 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-   host: process.localhost,
-  user: process.u622907918_yassin,
-  password: process.5414554xzsASSSS,
-  database: process.u622907918_chatappE
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
@@ -16,10 +16,3 @@ db.connect((err) => {
 });
 
 module.exports = db;
-
-
-
-
-
- 
-
