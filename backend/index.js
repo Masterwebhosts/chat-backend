@@ -1,23 +1,39 @@
-const express = require("express");
-const cors = require("cors");
+app.post("/api/application", (req, res) => {
+  const {
+    gender,
+    name,
+    country,
+    phone,
+    goal,
+    interest,
+    ageFrom,
+    ageTo,
+    description,
+    partnerSpecs
+  } = req.body;
 
-const app = express();
+  const sql = `
+    INSERT INTO applications
+    (gender, name, country, phone, goal, interest, age_from, age_to, description, partner_specs)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
 
-app.use(cors());
-app.use(express.json());
+  db.query(sql, [
+    gender,
+    name,
+    country,
+    phone,
+    goal,
+    interest,
+    ageFrom,
+    ageTo,
+    description,
+    partnerSpecs
+  ], (err) => {
+    if (err) {
+      return res.status(500).json({ message: err.message });
+    }
 
-// test root
-app.get("/", (req, res) => {
-  res.send("OK");
-});
-
-// API message
-app.get("/api/message", (req, res) => {
-  res.json({ message: "Backend يعمل بشكل صحيح" });
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log("Server running");
+    res.json({ message: "تم حفظ الطلب بنجاح" });
+  });
 });
