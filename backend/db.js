@@ -1,15 +1,15 @@
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",   // ضع كلمة مرورك إذا موجودة
-  database: "chat_app"
+  host: process.localhost,
+  user: process.u622907918_yassin,
+  password: process.S0>cQgKVbs,
+  database: process.u622907918_chatapp
 });
 
 db.connect((err) => {
   if (err) {
-    console.log("DB Connection Failed:", err);
+    console.log("DB Connection Failed:", err.message);
   } else {
     console.log("MySQL Connected");
   }
